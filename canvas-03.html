@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>index</title>
+		<link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+<!-- 		<canvas id="canvas"></canvas>
+ -->		<a href="canvas-02.html" class="more prev">PREV.</a>
+		<a href="canvas-01.html" class="more next">NEXT</a>
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var c = canvas.getContext("2d");
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+			canvas.width = width;
+			canvas.height = height;
+
+			var newCanvas = document.createElement("canvas");
+			newCanvas.id = "invisibleCanvas1";
+			document.body.appendChild(newCanvas);
+
+			var newCanvas = document.createElement("canvas");
+			newCanvas.id = "invisibleCanvas2";
+			document.body.appendChild(newCanvas);
+
+			var gHor = document.getElementById('invisibleCanvas1');
+			var gH = gHor.getContext("2d");
+			console.log(gHor);
+			gHor.width = width;
+			gHor.height = height;
+
+			var gVer = document.getElementById('invisibleCanvas2');
+			var gV = gVer.getContext("2d");
+			console.log(gVer);
+			gVer.width = width;
+			gVer.height = height;
+
+			var mouseX = width/2;
+			var mouseY = height/2;
+			var pMouseX;
+			var pMouseY;
+			var count = 0; 
+			var fontsize;
+			var colour = "#00F";
+			var text = "HELLO WORLD";
+			var interval;// = 100;
+			var count;
+
+			var setup = function(){
+				width = window.innerWidth;
+				height = window.innerHeight;
+				canvas.width = width;
+				canvas.height = height;
+				gHor.width = width;
+				gHor.height = height;
+				gVer.width = width;
+				gVer.height = height;
+
+				fontsize = (width*0.10);
+				interval = fontsize;
+
+				gH.textBaseline="middle"; 
+				gH.textAlign="center"; 
+				gH.font="bold "+fontsize+"px Helvetica";
+				gH.strokeStyle = "#00F";
+				gH.lineWidth = 2; 
+
+				count = Math.floor((height-200)/interval);
+
+				for(var i=0; i<count; i++){
+					gH.strokeText(text,width/2+50,(interval*i)+(interval/2)+100);
+				}
+
+				draw();
+
+			};
+			setup();
+
+			// window.onload = setup;
+			var o;// = {};
+			var drawing = false;
+			function draw(){
+
+				background("#fff");
+
+				// if(mouseX>)
+
+				gV.fillStyle = "#fff";
+				gV.fillRect(0,0,width,height);
+				gV.drawImage(gHor,0,0,mouseX,height,0,0,mouseX-100,height);
+				gV.drawImage(gHor,mouseX,0,1,height,mouseX-100,0,200,height);
+				gV.drawImage(gHor,mouseX,0,width,height,mouseX+100,0,width-(mouseX-100),height);
+
+
+				// c.drawImage(gVer,0,0,width,mouseY,0,0,width,mouseY-100);
+				// c.drawImage(gVer,0,mouseY,width,1,0,mouseY-100,width,200);
+				// c.drawImage(gVer,0,mouseY,width,height,0,mouseY+100,width,height-100);
+
+				c.drawImage(gVer,0,0,width,height,0,0,width,height);
+
+				// c.drawImage(graphics,0,0,width,mouseY,0,0,mouseY-100,height);
+				// c.drawImage(graphics,0,0,width,height,0,0,width,height);
+
+
+				// g.fillStyle = "#000";
+				// g.strokeStyle = "#FFF";
+				// g.lineWidth = 1; 
+
+				// for(var i=0; i<count; i++){
+				// 	c.fillText(text,width/2,(interval*i)+(interval/2));
+				// 	c.strokeText(text,width/2,(interval*i)+(interval/2));
+				// }
+
+				setTimeout(draw, 10);
+			};
+
+			canvas.onclick = function(e){
+				// c.drawImage(
+				// 	canvas,
+				// 	0, //source x
+				// 	0, //source y
+				// 	width, //source width
+				// 	height, //source height
+				// 	0, //dest x
+				// 	height/2, //dest y
+				// 	width, //dest width
+				// 	-(height/2) //dest height
+				// );
+
+				// console.log(width, -height);
+			};
+
+			function newObject(){
+				return { 
+					fill: "hsla("+random(0,360)+",100%,80%,1)",
+					stroke: "hsla("+random(0,360)+",80%,80%,1)",
+					strokeW: random(0,10),
+					w: random(100,400),
+					h: random(100,400),
+					x: random(0, width),
+					y: random(0, height)
+				};
+			}
+
+
+			/*
+			whatever you click goes above, unless it's too close to the type
+			otherwise copies onto canvas below
+			yes?
+			*/
+
+			/*
+			water droplets, image spreads out from clicks
+			do this shit on illustrations, not just generative wtvr
+			*/
+
+			/*
+			cross reflection on illustration
+			*/
+
+			/*
+			bakse's grid maze whatever
+			but interactive
+			disrupt it
+			typographic
+			*/
+
+			function random(min,max){
+				return Math.random()*(max-min)+min;
+			}
+
+			function background(color){
+				c.beginPath();
+			    c.rect(0, 0, width, height);
+			    c.fillStyle = color;
+			    c.fill();
+			    c.closePath();
+			}
+
+			function map(value, low1, high1, low2, high2) {
+			    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+			}
+
+			document.onmousemove = function(e){
+				pMouseX = mouseX; 
+				pMouseY = mouseY; 
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+			};
+
+			window.onresize = function(event){
+			    setup();
+			};
+
+
+
+		</script>
+	</body>
+</html>

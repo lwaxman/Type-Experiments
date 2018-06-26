@@ -1,0 +1,22 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Helvetica", "Arial", sans-serif; }
+
+.more {
+  position: absolute;
+  bottom: 50px;
+  color: blue;
+  border: 2px solid blue;
+  border-radius: 5px;
+  padding: 10px 18px;
+  text-decoration: none; }
+  .more.next {
+    right: 50px; }
+  .more.prev {
+    left: 50px; }
+  .more:hover {
+    background: blue;
+    color: white; }
+
+/*# sourceMappingURL=style.css.map */

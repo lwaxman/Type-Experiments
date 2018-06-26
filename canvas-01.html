@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>index</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<a href="canvas-03.html" class="more prev">PREV.</a>
+		<a href="canvas-02.html" class="more next">NEXT</a>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var c = canvas.getContext("2d");
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+			canvas.width = width;
+			canvas.height = height;
+
+			var colour = "blue"
+			var mouseX = width/2;
+			var mouseY = height-100;
+			var pMouseX;
+			var pMouseY;
+
+			var fontsize;
+
+			var setup = function(){
+				width = window.innerWidth;
+				height = window.innerHeight;
+				canvas.width = width;
+				canvas.height = height;
+
+				fontsize = (width*0.14);
+				c.font="bold "+fontsize+"px Helvetica";
+				c.textBaseline="middle"; 
+				c.textAlign="center"; 
+
+				draw();
+			};
+			setup();
+
+			var mouseCount = 0; 
+			var fw = true;
+			var interactive = true;
+			function draw(){
+				background("#FFF");
+				c.strokeStyle = "#0000FF";
+				c.fillStyle = "#FFF";
+				if(!interactive){
+					var radius = map(mouseCount, 0, height, -75, 75);
+				}else{
+					var radius = map(mouseY, 0, height, -75, 75);
+				}
+				var steps = 30; 
+
+				for(var i=0; i<steps; i++){
+					xValue = (width/2 + radius * Math.cos(2 * Math.PI * i / steps));
+				    yValue = (height/2 + radius * Math.sin(2 * Math.PI * i / steps));
+					// c.fillText("SPIRO",xValue,yValue);
+					c.strokeText("S P I R O",xValue,yValue);
+				}
+
+				if(!interactive){
+					if(mouseCount>=height){
+						fw = false;
+					}else if(mouseCount<=0){
+						fw = true;
+					}
+					if(fw){
+						mouseCount+=5;
+					}else{
+						mouseCount-=5;
+					}
+				}
+
+				setTimeout(draw, 10);
+			};
+
+			function background(color){
+				c.beginPath();
+			    c.rect(0, 0, width, height);
+			    c.fillStyle = color;
+			    c.fill();
+			    c.closePath();
+			}
+
+			function map(value, low1, high1, low2, high2) {
+			    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+			}
+
+			document.onmousemove = function(e){
+				pMouseX = mouseX; 
+				pMouseY = mouseY; 
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+			};
+
+			window.onresize = function(event){
+			    setup();
+			};
+
+
+
+		</script>
+	</body>
+</html>

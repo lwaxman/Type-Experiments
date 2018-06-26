@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>index</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<a href="canvas-01.html" class="more prev">PREV.</a>
+		<a href="canvas-03.html" class="more next">NEXT</a>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var c = canvas.getContext("2d");
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+			canvas.width = width;
+			canvas.height = height;
+
+			// var colour = "#00E300"
+			var text = "SHAKE IT"
+			var mouseX = width/2;
+			var mouseY = height/2;
+			var pMouseX;
+			var pMouseY;
+			var count = 0; 
+			var fw = true;
+			var colour = "blue";//"#00C8E3";
+			var interval = 8; 
+
+
+			var setup = function(){
+				width = window.innerWidth;
+				height = window.innerHeight;
+				canvas.width = width;
+				canvas.height = height;
+				fontsize = (width*0.2);
+				console.log("fs: ", fontsize);
+				c.font="bold "+fontsize+"px Helvetica";
+				c.textBaseline="bottom"; 
+				c.textAlign="center"; 
+
+				draw();
+			};
+			setup();
+
+			var mouseCount = 0; 
+			var fw = true;
+			var interactive = true;
+
+			function draw(){
+				// count = -15;
+				// console.log("drawing!");
+				background("white");
+				c.strokeStyle = colour; //"#747FFF";
+				var steps = (height-fontsize)/interval; 
+				var maxLoops = height/fontsize;
+				if(!interactive){
+					var loops = map(mouseCount, height, 0, 0, maxLoops);
+				}else{
+					var loops = map(mouseY, height, 0, 0, maxLoops);	
+				}
+
+				for(var i=0; i<steps; i++){
+					var xValue = (width/2 + count * Math.cos(2 * Math.PI * i / (steps/loops)))-count;
+				    var yValue = (interval*i);
+				    var r = map(i,0,steps,255,0);
+				    var g = map(i,0,steps,255,0);
+				    var b = map(i,0,steps,255,255);
+				    var a = map(i,0,steps,0,0.2);
+				    c.fillStyle = "rgba("+r+", "+g+", "+b+", "+a+")"
+				    // c.fillStyle = "rgba(255, 255, 255, "+a+")"
+					c.fillText(text,xValue,height-yValue);
+					c.strokeText(text,xValue,height-yValue);
+					if(i>=steps-1){
+						c.fillStyle = "white";
+						c.fillText(text,xValue,height-yValue);
+						c.strokeText(text,xValue,height-yValue);
+					}
+				}
+
+				// console.log(steps, maxLoops, loops, count);
+
+				if(count>15){
+					fw = false;
+				}else if(count<-15){
+					fw = true;
+				}
+				if(fw){
+					count++;
+				}else{
+					count--;
+				}
+
+				// if(!interactive){
+				// 	if(mouseCount>=height){
+				// 		fw = false;
+				// 	}else if(mouseCount<=0){
+				// 		fw = true;
+				// 	}
+				// 	if(fw){
+				// 		mouseCount+=30;
+				// 	}else{
+				// 		mouseCount-=30;
+				// 	}
+				// }
+				setTimeout(draw, 10);
+			};
+
+			function background(color){
+				c.beginPath();
+			    c.rect(0, 0, width, height);
+			    c.fillStyle = color;
+			    c.fill();
+			    c.closePath();
+			}
+
+			function map(value, low1, high1, low2, high2) {
+			    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+			}
+
+			document.onmousemove = function(e){
+				pMouseX = mouseX; 
+				pMouseY = mouseY; 
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+			};
+
+			window.onresize = function(event){
+			    setup();
+			};
+
+
+
+		</script>
+	</body>
+</html>
