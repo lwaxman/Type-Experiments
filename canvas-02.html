@@ -51,7 +51,7 @@
 			function draw(){
 				// count = -15;
 				// console.log("drawing!");
-				background("white");
+				background("#f5f4eb");
 				c.strokeStyle = colour; //"#747FFF";
 				var steps = (height-fontsize)/interval; 
 				var maxLoops = height/fontsize;
@@ -73,7 +73,7 @@
 					c.fillText(text,xValue,height-yValue);
 					c.strokeText(text,xValue,height-yValue);
 					if(i>=steps-1){
-						c.fillStyle = "white";
+						c.fillStyle = "#f5f4eb";
 						c.fillText(text,xValue,height-yValue);
 						c.strokeText(text,xValue,height-yValue);
 					}
